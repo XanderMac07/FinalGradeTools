@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grade Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Grade Tool</h1>
+
+    <!-- GRADE ESTIMATOR: Calculates what you need on the final to reach a desired overall grade -->
+    <section>
+      <h2>Grade Estimator</h2>
+      <label>
+        Current Grade (%):
+        <input type="number" id="currentGrade" placeholder="e.g. 85">
+      </label>
+      <label>
+        Desired Final Grade (%):
+        <input type="number" id="desiredGrade" placeholder="e.g. 90">
+      </label>
+      <label>
+        Final Weight (%):
+        <input type="number" id="finalWeight" placeholder="e.g. 30">
+      </label>
+      <button onclick="estimateGrade()">Estimate</button>
+      <p id="estimateResult"></p>
+    </section>
+
+    <!-- GRADE CALCULATOR Calculates your final grade after the exam, given your semester grade + exam score -->
+    <section>
+      <h2>Grade Calculator</h2>
+      <label>
+        Semester Grade (%):
+        <input type="number" id="semesterGrade" placeholder="e.g. 85">
+      </label>
+      <label>
+        Final Exam Grade (%):
+        <input type="number" id="finalExamGrade" placeholder="e.g. 92">
+      </label>
+      <label>
+        Final Weight (%):
+        <input type="number" id="calcFinalWeight" placeholder="e.g. 30">
+      </label>
+      <button onclick="calculateFinal()">Calculate</button>
+      <p id="calcResult"></p>
+    </section>
+  </div>
+
+  <!-- External JS file -->
+  <script src="script.js"></script>
+</body>
+</html>
