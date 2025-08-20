@@ -23,6 +23,16 @@ function estimateGrade() {
     document.getElementById("estimateResult").innerText = "⚠️ Please fill all fields.";
     return;
   }
+  // Check ranges (grades 0–200, weight 0–100)
+  if (semester < 0 || semester > 200 || finalExam < 0 || finalExam > 200) {
+    document.getElementById("calcResult").innerText = "⚠️ Grades must be between 0 and 200.";
+    return;
+    
+  }
+  if (weight < 0 || weight > 1) { // divided by 100 earlier
+    document.getElementById("calcResult").innerText = "⚠️ Weight must be between 0 and 100.";
+    return;
+  }
 
   // Calculate grade needed on final
   const needed = (desired - current * (1 - weight)) / weight;
