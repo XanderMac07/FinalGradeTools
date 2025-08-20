@@ -67,6 +67,17 @@ function calculateFinal() {
     return;
   }
 
+// Check ranges (grades 0–200, weight 0–100)
+if (current < 0 || current > 200 || desired < 0 || desired > 200) {
+  document.getElementById("estimateResult").innerText = "Grades must be between 0 and 200.";
+  return;
+}
+if (weight < 0 || weight > 1) { // since we divide by 100 earlier
+  document.getElementById("estimateResult").innerText = "Weight must be between 0 and 100.";
+  return;
+}
+
+
   // Calculate weighted final grade
   const finalGrade = semester * (1 - weight) + finalExam * weight;
 
