@@ -37,9 +37,17 @@ function estimateGrade() {
   // Calculate grade needed on final
   const needed = (desired - current * (1 - weight)) / weight;
 
-  // Show result (always just the number)
-  document.getElementById("estimateResult").innerText =
-    "You need " + needed.toFixed(2) + "% on the final.";
+  // Show result
+  if (needed > 100) {
+    document.getElementById("estimateResult").innerText =
+      "You would need " + needed.toFixed(2) + "% on the final (over 100%).";
+  } else if (needed < 0) {
+    document.getElementById("estimateResult").innerText =
+      "You already have enough! Even a 0% on the final gives you your goal.";
+  } else {
+    document.getElementById("estimateResult").innerText =
+      "You need " + needed.toFixed(2) + "% on the final.";
+  }
 }
 
 /**
@@ -64,7 +72,7 @@ function calculateFinal() {
     document.getElementById("calcResult").innerText = "⚠️ Grades must be between 0 and 200.";
     return;
   }
-  if (weight < 0 || weight > 1) { // divided by 100 earlier
+  if (weight < 0 || weight > 1) { // since we divide by 100 earlier
     document.getElementById("calcResult").innerText = "⚠️ Weight must be between 0 and 100.";
     return;
   }
