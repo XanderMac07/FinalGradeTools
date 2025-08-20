@@ -1,86 +1,46 @@
-/* 
-  ============================
-  GRADE TOOL JAVASCRIPT
-  Two main functions:
-   - estimateGrade(): What you need on the final to reach a goal
-   - calculateFinal(): What your final grade is after the exam
-  ============================
-*/
-
-/**
- * Estimate the grade needed on the final exam
- * Formula: 
- *   needed = (desired - current*(1 - weight)) / weight
- */
 function estimateGrade() {
-  // Grab values from inputs
   const current = parseFloat(document.getElementById("currentGrade").value);
   const desired = parseFloat(document.getElementById("desiredGrade").value);
-  const weight = parseFloat(document.getElementById("finalWeight").value) / 100;
+  const weight = parseFloat(document.getElementById("finalWeight").value);
 
-  // Validate input
+  const result = document.getElementById("estimateResult");
+
   if (isNaN(current) || isNaN(desired) || isNaN(weight)) {
-    document.getElementById("estimateResult").innerText = "⚠️ Please fill all fields.";
-    return;
+    return result.innerText = "⚠️ Fill all fields.";
+  }
+  if (current < 0 || current > 200) return result.innerText = "⚠️ Current Grade must be 0–200.";
+  if (desired < 0 || desired > 200) return result.innerText = "⚠️ Desired Final Grade must be 0–200.";
+  if (weight < 0 || weight > 100) return result.innerText = "⚠️ Final Weight must be 0–100.";
+
+  const w = weight / 100;
+  if (w === 0) {
+    return result.innerText =
+      desired > current ? "Final has no weight, cannot raise grade." :
+      "Final has no weight, goal already met.";
   }
 
-  // Check ranges (grades 0–200, weight 0–100)
-  if (current < 0 || current > 200 || desired < 0 || desired > 200) {
-    document.getElementById("estimateResult").innerText = "⚠️ Grades must be between 0 and 200.";
-    return;
-  }
-  if (weight < 0 || weight > 1) { // divided by 100 earlier
-    document.getElementById("estimateResult").innerText = "⚠️ Weight must be between 0 and 100.";
-    return;
-  }
-
-  // Calculate grade needed on final
-  const needed = (desired - current * (1 - weight)) / weight;
-
-  // Show result
-  if (needed > 100) {
-    document.getElementById("estimateResult").innerText =
-      "You would need " + needed.toFixed(2) + "% on the final (over 100%).";
-  } else if (needed < 0) {
-    document.getElementById("estimateResult").innerText =
-      "You already have enough! Even a 0% on the final gives you your goal.";
-  } else {
-    document.getElementById("estimateResult").innerText =
-      "You need " + needed.toFixed(2) + "% on the final.";
-  }
+  const needed = (desired - current * (1 - w)) / w;
+  result.innerText =
+    needed > 100 ? `Need ${needed.toFixed(2)}% (over 100%).` :
+    needed < 0 ? "Already safe, even with 0% on final." :
+    `Need ${needed.toFixed(2)}% on final.`;
 }
 
-/**
- * Calculate final grade after the exam
- * Formula:
- *   final = semester*(1 - weight) + exam*weight
- */
 function calculateFinal() {
-  // Grab values from inputs
   const semester = parseFloat(document.getElementById("semesterGrade").value);
   const finalExam = parseFloat(document.getElementById("finalExamGrade").value);
-  const weight = parseFloat(document.getElementById("calcFinalWeight").value) / 100;
+  const weight = parseFloat(document.getElementById("calcFinalWeight").value);
 
-  // Validate input
+  const result = document.getElementById("calcResult");
+
   if (isNaN(semester) || isNaN(finalExam) || isNaN(weight)) {
-    document.getElementById("calcResult").innerText = "⚠️ Please fill all fields.";
-    return;
+    return result.innerText = "⚠️ Fill all fields.";
   }
+  if (semester < 0 || semester > 200) return result.innerText = "⚠️ Semester Grade must be 0–200.";
+  if (finalExam < 0 || finalExam > 200) return result.innerText = "⚠️ Final Exam Grade must be 0–200.";
+  if (weight < 0 || weight > 100) return result.innerText = "⚠️ Final Weight must be 0–100.";
 
-  // Check ranges (grades 0–200, weight 0–100)
-  if (semester < 0 || semester > 200 || finalExam < 0 || finalExam > 200) {
-    document.getElementById("calcResult").innerText = "⚠️ Grades must be between 0 and 200.";
-    return;
-  }
-  if (weight < 0 || weight > 1) { // since we divide by 100 earlier
-    document.getElementById("calcResult").innerText = "⚠️ Weight must be between 0 and 100.";
-    return;
-  }
-
-  // Calculate weighted final grade
-  const finalGrade = semester * (1 - weight) + finalExam * weight;
-
-  // Show result
-  document.getElementById("calcResult").innerText =
-    "Your final grade is " + finalGrade.toFixed(2) + "%.";
+  const w = weight / 100;
+  const finalGrade = semester * (1 - w) + finalExam * w;
+  result.innerText = `Your final grade is ${finalGrade.toFixed(2)}%.`;
 }
